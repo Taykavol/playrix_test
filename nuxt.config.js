@@ -24,7 +24,11 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
-
+  env:{
+    GITHUB_CLIENT_ID:'fea7053d2c2a62e68910',
+    GITHUB_SECRET:'d434dbdd070a079542dcae3a17db2c9ec5b0dfca',
+    GET_ACCESS_TOKEN_URI:'http://localhost:4000'
+  },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],

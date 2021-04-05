@@ -1,0 +1,8 @@
+POST https://github.com/login/oauth/access_token 
+Content-Type: application/json
+
+{
+    "client_id":"fea7053d2c2a62e68910",
+    "client_secret":"d434dbdd070a079542dcae3a17db2c9ec5b0dfca",
+    "code":"60e1e18230479561f727"
+}

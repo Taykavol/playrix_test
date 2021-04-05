@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
+    "deploy":"surge dist/ https://playrix_test_task_moiseenko.surge.sh",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3"
   },
