@@ -23,7 +23,7 @@
         <div
           v-for="item in filteredUserArray"
           :key="item.login"
-          @click="getDataFromGithub(item.login+'/') "
+          @click="selectUser(item.login) "
           class="option"
         >
           <div class=""> {{ item.login }}</div>
@@ -144,19 +144,24 @@ export default {
         this.$emit('input', repo)
         this.isChosen = true
     },
+    selectUser(user) {
+        this.$emit('input', user+'/')
+        this.setTimer(0)
+        // this.selectRepo(user+"/")
+    },
     onInput(event) {
         this.isChosen = false
 
         // Needed for v-model
         this.$emit('input', event.target.value)
         if(this.isLink) return
-        this.setTimer(event,400)
+        this.setTimer(400)
     },
-    setTimer(event,time) {
+    setTimer(time) {
         // Prevent extra request while printing
           this.wasPrinted=true;
           clearTimeout(this.timeOut)
-          this.timeOut = setTimeout(()=>{this.wasPrinted=false; this.getDataFromGithub(event.target.value)},time)
+          this.timeOut = setTimeout(()=>{this.wasPrinted=false; this.getDataFromGithub(this.url)},time)
     }
   },
 }

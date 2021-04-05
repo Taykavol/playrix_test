@@ -2,8 +2,6 @@
   <div class="container">
     <div class="form">
       <autocomplete v-model="url" :url="url"/>
-      <div class="">{{url}}</div>
-      
       <div class="date ">
           <div class="">
              <div class="">Начало анализа:</div>
