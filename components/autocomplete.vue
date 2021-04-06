@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  props: ['url'],
+  props: ['url','callback'],
   data() {
     return {
       data: [],
@@ -143,6 +143,7 @@ export default {
         console.log(repo)
         this.$emit('input', repo)
         this.isChosen = true
+        this.callback()
     },
     selectUser(user) {
         this.$emit('input', user+'/')
