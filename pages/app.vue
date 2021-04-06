@@ -29,13 +29,13 @@
                 </div>
             </div>
             <div v-if="sortContibutorsByDesc">
-                <div v-for="contributor in fixContributersDesc"> 
-                    {{contributor.author.login}} - {{contributor.total}} commits
+                <div v-for="contributor in fixContributers(sortDesc(contributors),30)"> 
+                    {{contributor.author.login}} - {{countCommits(filterArrayByDate(contributor.weeks,startDate,endDate))}} commits 
                 </div>
             </div>
             <div v-else>
-                <div v-for="contributor in fixContributersInc"> 
-                    {{contributor.author.login}} - {{contributor.total}} commits
+                <div v-for="(contributor,index) in fixContributers(sortInc(contributors),30)"> 
+                    {{contributor.author.login}} - {{ countCommits(filterArrayByDate(contributor.weeks,startDate,endDate)) }} commits 
                 </div>
             </div>
         </div>
@@ -55,43 +55,49 @@ export default {
       startDate: null,
       endDate: null,
       url: '',
-      sortContibutorsByDesc:true
+      sortContibutorsByDesc:true,
     }
   },
   computed: {
-      fixContributersDesc() {
-          return this.sortDesc.splice(0,30)
-      },
-      fixContributersInc() {
-          return this.sortInc.splice(0,30)
-      },
-      sortDesc() {
-          const mapped = this.contributors.map((el,i)=>{ return {index:i, value:el.total}})
-          mapped.sort((a,b)=>{
-              if (a.value > b.value) {
-                return 1; }
-              if (a.value < b.value) {
-                return -1; }
-              return 0;
-          }) 
-          return mapped.map(el=>this.contributors[el.index])
-      },
-      sortInc() {
-          const mapped = this.contributors.map((el,i)=>{ return {index:i, value:el.total}})
-          mapped.sort((a,b)=>{
-              if (a.value < b.value) {
-                return 1; }
-              if (a.value > b.value) {
-                return -1; }
-              return 0;
-          }) 
-          return mapped.map(el=>this.contributors[el.index])
-      }
+      
+      
   },
   methods: {
-      fixContributers(contributers,limit=30) {
-          return contributers.splice(0,limit)
-      },
+    timeStamp(date) {
+        return new Date(date).getTime()
+    },
+    filterArrayByDate(array, start, end) {
+      console.log(start,end,array[0].w)
+      if(!start) {start=array[0].w} else {start = new Date(start).getTime()/1000}
+      if(!end) {end=Math.floor(new Date().getTime()/1000)} else {end = new Date(end).getTime()/1000}
+      // 604800 milisecond between weeks
+        // array.weeks[0].w - way to play.
+      let deltaStart = start - array[0].w
+      console.log(deltaStart)
+      let indexStart;
+      if(deltaStart<=0) {
+        indexStart=0
+      } else {
+        indexStart = Math.floor(deltaStart/604800)
+      }
+      console.log(indexStart)
+      const lastIndex = array.length-1
+      let deltaEnd = end - array[lastIndex].w
+      let indexEnd;
+      console.log('deltaEnd:',deltaEnd,'lastIndex',lastIndex)
+      if(deltaEnd>0) {
+        indexEnd=lastIndex
+      } else {
+        indexEnd = Math.floor(deltaEnd/604800)
+      }
+
+      console.log(indexEnd)
+
+      return array.slice(indexStart,indexEnd)
+    },
+    countCommits(array) {
+      return array.reduce((prev,curr)=>{  return (prev+curr.c)}, 0)
+    },
     getListBrunches() {
       fetch(`https://api.github.com/repos/${this.url}/branches`).then((res)=>res.json())
       .then(brunches=> {this.brunches=brunches})
@@ -99,7 +105,34 @@ export default {
     getListContributers() {
         fetch(`https://api.github.com/repos/${this.url}/stats/contributors`).then((res)=>res.json())
         .then(contributors=> {this.contributors=contributors})
-    }
+    },
+    sortDesc(array) {
+          const mapped = array.map((el,i)=>{ return {index:i, value:this.countCommits(this.filterArrayByDate(el.weeks,this.startDate,this.endDate))}})
+          mapped.sort((a,b)=>{
+              if (a.value > b.value) {
+                return 1; }
+              if (a.value < b.value) {
+                return -1; }
+              return 0;
+          }) 
+          return mapped.map(el=>array[el.index])
+      },
+      sortInc(array) {
+          const mapped = array.map((el,i)=>{ return {index:i, value:this.countCommits(this.filterArrayByDate(el.weeks,this.startDate,this.endDate))  }})
+          mapped.sort((a,b)=>{
+              if (a.value < b.value) {
+                return 1; }
+              if (a.value > b.value) {
+                return -1; }
+              return 0;
+          }) 
+          return mapped.map(el=>array[el.index])
+      },
+        fixContributers(array, limit) {
+          return array.splice(0,limit)
+      },
+
+
   },
 }
 </script>
