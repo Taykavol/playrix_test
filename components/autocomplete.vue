@@ -56,10 +56,6 @@ export default {
       if (!this.data) return
       return this.data
         .filter((option) => {
-            console.log(option.full_name
-              .toString()
-              .toLowerCase()
-              .indexOf(this.url.toLowerCase()) >= 0)
           return (
             option.full_name
               .toString()
@@ -140,7 +136,6 @@ export default {
 
     },
     selectRepo(repo) {
-        console.log(repo)
         this.$emit('input', repo)
         this.isChosen = true
         this.callback()
