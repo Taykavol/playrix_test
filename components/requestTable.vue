@@ -36,9 +36,6 @@ export default {
             default:'OPEN'
         }
     },
-    // updated() {
-    //     this.page =0;
-    // },
     data() {
         return {
             page:0,
@@ -84,16 +81,13 @@ a {
     padding:.3rem 0;
 }
 .grid-3 {
- /* border:black 1px solid; */
     cursor: pointer;
-    /* margin: 0 0rem; */
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     
 }
 .grid-4 {
     cursor: pointer;
-    /* margin: 0 6rem; */
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
 }
