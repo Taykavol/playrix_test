@@ -1,5 +1,5 @@
 # playrix_test
-
+Check out this project on https://playrix_test_task_moiseenko.surge.sh
 ## Build Setup
 
 ```bash
