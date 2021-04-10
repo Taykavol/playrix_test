@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Nuxt />
+    <transition name="page">
+      <Nuxt />
+    </transition>
   </div>
 </template>
 
@@ -39,4 +41,6 @@ html {
   align-items: center;
   text-align: center;
 }
+
+
 </style>

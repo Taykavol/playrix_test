@@ -3,7 +3,7 @@
       <!-- goo;sdfsadfdasfgsdf -->
       <div style="margin-bottom:.8rem;" class="flex-center">
         <div style="text-transform:capitalize; " class="">{{mode}} requests </div>
-        <div style="margin-left:8px;border:1px solid;padding:.3rem;cursor:pointer;" :class="{'pagination-item-active':isSortedByAuthor}" @click="isSortedByAuthor=!isSortedByAuthor"  class=" ">sort by Author</div>
+        <div v-if="mode=='OLD'" style="margin-left:8px;border:1px solid;padding:.3rem;cursor:pointer;" :class="{'pagination-item-active':isSortedByAuthor}" @click="isSortedByAuthor=!isSortedByAuthor"  class=" ">Group by Author</div>
       </div>
       <div style="font-weight:bold;padding:.3rem;" :class="{'grid-3':mode=='OPEN'||mode=='CLOSED', 'grid-4':mode=='OLD'} ">
           <div class="">PR title</div>
@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         paginatedPulls() {
-            if(!this.isSortedByAuthor)
+            if(!this.isSortedByAuthor||this.mode!='OLD')
                 return this.pulls.slice(this.page*25,this.page*25+24)
             else 
                 return this.sort(this.pulls).slice(this.page*25,this.page*25+24)
@@ -56,7 +56,7 @@ export default {
     },
     methods:{
         sort(array) {
-          const mapped = array.map((el,i)=>{ return {index:i, value: el.user.login}})
+          const mapped = array.map((el,i)=>{ return {index:i, value: el.user.login.toLowerCase()}})
           mapped.sort((a,b)=>{
               if (a.value > b.value) {
                 return 1; }
@@ -86,14 +86,14 @@ a {
 .grid-3 {
  /* border:black 1px solid; */
     cursor: pointer;
-    margin: 0 6rem;
+    /* margin: 0 0rem; */
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     
 }
 .grid-4 {
     cursor: pointer;
-    margin: 0 6rem;
+    /* margin: 0 6rem; */
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
 }

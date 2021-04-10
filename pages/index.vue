@@ -1,12 +1,21 @@
 <template>
   <div class="container">
-      <div @click="auth_github" class="auth--btn">Auth with GitHub</div>
+      <div @click="auth_github" style="display:flex;" class="auth--btn">
+        <div style="magrin:2rem; height:2rem;margin-right:.4rem;" class="flex-center">Auth with GitHub</div>
+        <img style="width:2rem; height:2rem;" src="/github-brands.svg" alt="">
+      </div>
   </div>
 </template>
 
 <script>
 import Axios from 'axios'
 export default {
+  data() {
+    return {
+      env:process.env.GITHUB_CLIENT_ID,
+      token:localStorage.getItem('token')||null
+    }
+  },
   methods:{
     auth_github() {
       console.log(this.$store.state)
@@ -14,6 +23,11 @@ export default {
     }
   },
   created() {
+    if(this.token) {
+      this.$nextTick(()=>{
+          this.$router.push('/app')
+        })
+    }
     if(this.$route.query.code) {
       const params = {code:this.$route.query.code}
       Axios.post(process.env.GET_ACCESS_TOKEN_URI,params)
@@ -38,15 +52,21 @@ export default {
 <style>
 
 .auth--btn {
-  border:1px solid gray;
-  padding: .2rem .5rem;
-  border-radius: 10px;
+  background: #f5f5f5;
+  /* border:1px solid gray; */
+  padding: .6rem 1rem;
   cursor: pointer;
   transition: .5s all ease;
 }
 .auth--btn:hover {
-  background: #f5f5f5;
+  color: white;
+  background: #949494;
   /* color:white; */
 }
-
+.flex-center {
+    display:flex; 
+    justify-content:center;
+    align-items: center;
+    padding:.3rem 0;
+}
 </style>
