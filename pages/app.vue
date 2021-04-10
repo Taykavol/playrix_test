@@ -64,6 +64,7 @@ import ContributersTable from '~/components/contributersTable.vue'
 import RequestTable from '~/components/requestTable.vue'
 export default {
   components: { Autocomplete, RequestTable, ContributersTable },
+  middleware: ['auth'],
   data() {
     return {
       isAllRequestGot:false,

@@ -20,3 +20,7 @@ export const actions = {
         localStorage.removeItem('token')
     }
 }
+
+export const getters = {
+    isLogin: state=>!!state.token
+}
