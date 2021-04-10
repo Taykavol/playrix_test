@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-      <div @click="auth_github" style="display:flex;" class="auth--btn">
+      <div style="mt-8" v-if="$route.query.code" class="">Loading...</div>
+      <div v-else @click="auth_github" style="display:flex;" class="auth--btn">
         <div style="magrin:2rem; height:2rem;margin-right:.4rem;" class="flex-center">Auth with GitHub</div>
         <img style="width:2rem; height:2rem;" src="/github-brands.svg" alt="">
       </div>

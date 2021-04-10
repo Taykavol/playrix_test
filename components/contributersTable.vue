@@ -27,7 +27,6 @@ export default {
     },
   },
   created() {
-    console.log('Contributer:', this.contributors)
   },
   data() {
     return {
@@ -78,8 +77,9 @@ export default {
       } else {
         indexEnd = Math.floor(deltaEnd / 604800)
       }
-
-      return array.slice(indexStart, indexEnd)
+        if(indexStart!=indexEnd)
+          return array.slice(indexStart, indexEnd)
+        return array
     },
     sortDesc(array) {
       const mapped = array.map((el, i) => {
